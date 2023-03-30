@@ -1,0 +1,43 @@
+1.
+La clase "FileSystemItemBase" imcumple el principio de sustitución de Liskov, ya que la clase abstracta FileSystemItemBase no implementa completamente todos los métodos de la interfaz FileSystemItem. En lugar de eso, algunos métodos se declaran abstractos y se implementan en las clases que extienden la clase FileSystemItemBase. Esto puede llevar a confusiones y errores en la implementación de las clases hijas.
+
+Para que la clase FileSystemItemBase cumpla con el principio de sustitución de Liskov, es necesario asegurarse de que cualquier instancia de su subclase se pueda utilizar en lugar de una instancia de la clase base sin afectar el comportamiento esperado del programa.
+
+En este caso, la clase FileSystemItemBase tiene varios métodos abstractos que deben ser implementados por sus subclases. Una posible solución para asegurarse de que la subclase cumple con el principio de sustitución de Liskov es hacer que todos los métodos abstractos de la subclase llamen a los métodos abstractos de la superclase para garantizar que el comportamiento se mantenga consistente. Además, se deben evitar lanzar excepciones no esperadas por los clientes que utilizan la clase base.
+
+Por ejemplo:
+
+    @Override
+    public List<FileSystemItem> listFiles() {
+        return new ArrayList<>();
+    }
+
+2. 
+La interfaz "FileSystemItem" inclumple el principio de segregación de interfaces ya que contiene métodos que no son relevantes para todas las clases que la implementan. Por ejemplo: no todos los FileSystemItem tienen un padre o una extensión, lo que significa que algunos de estos métodos serán inútiles para ciertas implementaciones.
+
+Para cumplir con el principio de interfaz segregada, debemos dividir la interfaz FileSystemItem en varias interfaces más pequeñas y cohesivas.
+
+public interface FileSystemItem {
+    String getName();
+    FileSystemItem getParent();
+    String getFullPath();
+    void open();
+    void close();
+    void setPosition(int numberOfBytesFromBeginning);
+    byte[] read(int numberOfBytesToRead);
+    void write(byte[] buffer);
+}
+
+public interface DirectoryItem extends FileSystemItem {
+    List<FileSystemItem> listFiles();
+    void addFile(FileSystemItem file);
+    void removeFile(FileSystemItem file);
+}
+
+public interface FileItem extends FileSystemItem {
+    String getExtension();
+    int getSize();
+}
+
+Actualizo el resto de archivos para obtener una implementación coherente.
+
