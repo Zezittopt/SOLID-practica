@@ -52,27 +52,47 @@ public abstract class FileSystemItemBase implements FileSystemItem {
         path = path + getName();
         return path;
     }
+@Override
+    public String getExtension() {
+        int dotIndex = name.lastIndexOf(".");
+        if (dotIndex > -1 && dotIndex < name.length() - 1) {
+            return name.substring(dotIndex + 1);
+        }
+        return "";
+    }
 
     @Override
-    public abstract String getExtension();
+    public List<FileSystemItem> listFiles() {
+        return new ArrayList<>();
+    }
 
     @Override
-    public abstract List<FileSystemItem> listFiles();
+    public int getSize() {
+        return size;
+    }
 
     @Override
-    public abstract int getSize();
+    public void open() {
+        throw new UnsupportedOperationException("No se puede abrir este tipo de archivo");
+    }
 
     @Override
-    public abstract void open();
+    public void setPosition(int numberOfBytesFromBeginning) {
+        throw new UnsupportedOperationException("Este tipo de archivo no admite establecer la posición");
+    }
 
     @Override
-    public abstract void setPosition(int numberOfBytesFromBeginning);
+    public byte[] read(int numberOfBytesToRead) {
+        throw new UnsupportedOperationException("No se puede leer este tipo de archivo");
+    }
 
     @Override
-    public abstract byte[] read(int numberOfBytesToRead);
+    public void write(byte[] buffer) {
+        throw new UnsupportedOperationException("No se puede escribir en este tipo de archivo");
+    }
 
     @Override
-    public abstract void write(byte[] buffer);
-
-    public abstract void close();
+    public void close() {
+        throw new UnsupportedOperationException("No se puede cerrar este tipo de archivo");
+    }
 }
